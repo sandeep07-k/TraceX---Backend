@@ -1,0 +1,22 @@
+From: CEO <ceo@company-example.com>
+To: finance@example.com
+Reply-To: payment-update@random-mail.example
+Subject: Urgent Payment Request
+Date: Tue, 1 Sep 2026 11:00:00 +0530
+Message-ID: <bec-001@example>
+
+Received: from unknown-host (203.0.113.50)
+    by mail.example with ESMTP;
+    Tue, 1 Sep 2026 10:59:50 +0530
+
+Hi Finance Team,
+
+I need an urgent payment processed today.
+
+Please use the updated payment details provided in the attached
+communication and confirm once completed.
+
+This is time sensitive.
+
+Regards,
+CEO

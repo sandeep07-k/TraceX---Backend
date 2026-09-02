@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.settings import settings
 from app.routes.health_routes import router as health_router
+from app.routes.email_routes import router as email_router
 
 
 app = FastAPI(
@@ -21,6 +22,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.include_router(
+    email_router,
+    prefix=settings.api_prefix,
+    tags=["Email Analysis"],
 )
 
 app.include_router(

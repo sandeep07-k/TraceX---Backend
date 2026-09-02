@@ -1,0 +1,22 @@
+From: PayPal Security <support@paypa1-security.example>
+To: test@example.com
+Reply-To: verify@random-mail.example
+Return-Path: bounce@random-mail.example
+Subject: URGENT: Verify your account immediately
+Date: Tue, 1 Sep 2026 10:30:00 +0530
+Message-ID: <phishing-001@example>
+
+Received: from suspicious-mail.example (198.51.100.20)
+    by mx.example with ESMTP;
+    Tue, 1 Sep 2026 10:29:50 +0530
+
+Hello,
+
+URGENT! Your account will be suspended within 24 hours.
+
+Please verify your password and payment details immediately.
+
+https://bit.ly/demo-tracex
+
+Regards,
+Security Team
