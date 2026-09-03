@@ -1,6 +1,7 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.schemas.email_schema import EmailAnalysisResponse
+from app.services.email.header_analyzer import analyze_headers
 from app.services.email.parser import parse_eml
 
 
@@ -15,7 +16,7 @@ async def upload_email(
     file: UploadFile = File(...),
 ):
     """
-    Upload and parse an .eml file.
+    Upload and analyze an .eml file.
     """
 
     if not file.filename:
@@ -32,8 +33,18 @@ async def upload_email(
 
     content = await file.read()
 
+    if not content:
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded file is empty.",
+        )
+
     try:
         parsed_email = parse_eml(content)
+
+        header_forensics = analyze_headers(
+            parsed_email
+        )
 
     except ValueError as exc:
         raise HTTPException(
@@ -41,8 +52,15 @@ async def upload_email(
             detail=str(exc),
         ) from exc
 
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Email analysis failed: {exc}",
+        ) from exc
+
     return {
         "success": True,
         "filename": file.filename,
         "email": parsed_email,
+        "header_forensics": header_forensics,
     }
