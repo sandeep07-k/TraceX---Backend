@@ -315,4 +315,48 @@ def parse_eml(content: bytes) -> dict[str, Any]:
         "attachments": extract_attachments(
             message
         ),
+
+        "authentication_results": [
+            str(value).strip()
+            for value in message.get_all(
+                "Authentication-Results",
+                [],
+            )
+        ],
+
+        "received_spf": [
+            str(value).strip()
+            for value in message.get_all(
+                "Received-SPF",
+                [],
+            )
+        ],
+
+        "dkim_signatures": [
+            str(value).strip()
+            for value in message.get_all(
+                "DKIM-Signature",
+                [],
+            )
+        ],
+
+        "all_headers": extract_all_headers(message),
+         
     }
+
+
+def extract_all_headers(message: Message) -> dict[str, list[str]]:
+    """
+    Extract all email headers while preserving duplicate headers.
+    """
+    headers: dict[str, list[str]] = {}
+
+    for key, value in message.items():
+        normalized_key = key.lower()
+
+        headers.setdefault(
+            normalized_key,
+            []
+        ).append(str(value).strip())
+
+    return headers

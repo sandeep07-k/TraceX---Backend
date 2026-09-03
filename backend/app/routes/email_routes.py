@@ -4,6 +4,10 @@ from app.schemas.email_schema import EmailAnalysisResponse
 from app.services.email.header_analyzer import analyze_headers
 from app.services.email.parser import parse_eml
 
+from app.services.email.authentication_analyzer import (
+    analyze_authentication,
+)
+
 
 router = APIRouter()
 
@@ -58,9 +62,22 @@ async def upload_email(
             detail=f"Email analysis failed: {exc}",
         ) from exc
 
+    parsed_email = parse_eml(content)
+
+    header_forensics = analyze_headers(
+        parsed_email
+    )
+
+    authentication = analyze_authentication(
+        parsed_email
+    )
+
     return {
         "success": True,
         "filename": file.filename,
         "email": parsed_email,
         "header_forensics": header_forensics,
+        "authentication": authentication,
     }
+
+    

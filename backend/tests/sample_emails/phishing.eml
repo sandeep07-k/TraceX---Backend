@@ -3,12 +3,16 @@ To: test@example.com
 Reply-To: verify@random-mail.example
 Return-Path: bounce@random-mail.example
 Subject: URGENT: Verify your account immediately
-Date: Tue, 1 Sep 2026 10:30:00 +0530
+Date: Tue, 01 Sep 2026 10:30:00 +0530
 Message-ID: <phishing-001@example>
-
+Authentication-Results: mx.example;
+    spf=fail smtp.mailfrom=paypa1-security.example;
+    dkim=none;
+    dmarc=fail header.from=paypa1-security.example
+Received-SPF: fail
 Received: from suspicious-mail.example (198.51.100.20)
     by mx.example with ESMTP;
-    Tue, 1 Sep 2026 10:29:50 +0530
+    Tue, 01 Sep 2026 10:29:50 +0530
 
 Hello,
 

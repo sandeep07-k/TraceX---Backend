@@ -2,6 +2,10 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
+from app.schemas.authentication_schema import (
+    EmailAuthentication,
+)
+
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -38,6 +42,18 @@ class EmailInfo(BaseModel):
     )
 
     attachments: list[AttachmentInfo] = Field(
+        default_factory=list
+    )
+
+    authentication_results: list[str] = Field(
+        default_factory=list
+    )
+
+    received_spf: list[str] = Field(
+        default_factory=list
+    )
+
+    dkim_signatures: list[str] = Field(
         default_factory=list
     )
 
@@ -101,3 +117,5 @@ class EmailAnalysisResponse(BaseModel):
     filename: str
     email: EmailInfo
     header_forensics: HeaderForensics
+    authentication: EmailAuthentication
+
