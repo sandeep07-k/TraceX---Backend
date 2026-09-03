@@ -7,6 +7,9 @@ from app.services.email.parser import parse_eml
 from app.services.email.authentication_analyzer import (
     analyze_authentication,
 )
+from app.services.threat.threat_analyzer import (
+    analyze_threats,
+)
 
 
 router = APIRouter()
@@ -72,12 +75,28 @@ async def upload_email(
         parsed_email
     )
 
+    parsed_email = parse_eml(content)
+
+    header_forensics = analyze_headers(
+        parsed_email
+    )
+
+    authentication = analyze_authentication(
+        parsed_email
+    )
+
+    threat_analysis = analyze_threats(
+        parsed_email,
+        header_forensics,
+    )
+
     return {
         "success": True,
         "filename": file.filename,
         "email": parsed_email,
         "header_forensics": header_forensics,
         "authentication": authentication,
+        "threat_analysis": threat_analysis,
     }
 
     

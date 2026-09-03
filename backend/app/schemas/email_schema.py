@@ -5,7 +5,9 @@ from pydantic import BaseModel, Field
 from app.schemas.authentication_schema import (
     EmailAuthentication,
 )
-
+from app.schemas.threat_schema import (
+    ThreatAnalysis,
+)
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -118,4 +120,5 @@ class EmailAnalysisResponse(BaseModel):
     email: EmailInfo
     header_forensics: HeaderForensics
     authentication: EmailAuthentication
+    threat_analysis: ThreatAnalysis
 
