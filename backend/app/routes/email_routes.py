@@ -10,6 +10,9 @@ from app.services.email.authentication_analyzer import (
 from app.services.threat.threat_analyzer import (
     analyze_threats,
 )
+from app.services.risk.risk_engine import (
+    calculate_risk,
+)
 
 
 router = APIRouter()
@@ -90,6 +93,27 @@ async def upload_email(
         header_forensics,
     )
 
+    parsed_email = parse_eml(content)
+
+    header_forensics = analyze_headers(
+        parsed_email
+    )
+
+    authentication = analyze_authentication(
+        parsed_email
+    )
+
+    threat_analysis = analyze_threats(
+        parsed_email,
+        header_forensics,
+    )
+
+    risk = calculate_risk(
+        header_forensics,
+        authentication,
+        threat_analysis,
+    )
+
     return {
         "success": True,
         "filename": file.filename,
@@ -97,6 +121,7 @@ async def upload_email(
         "header_forensics": header_forensics,
         "authentication": authentication,
         "threat_analysis": threat_analysis,
+        "risk": risk,
     }
 
     

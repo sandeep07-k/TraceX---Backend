@@ -8,6 +8,9 @@ from app.schemas.authentication_schema import (
 from app.schemas.threat_schema import (
     ThreatAnalysis,
 )
+from app.schemas.risk_schema import (
+    RiskAssessment,
+)
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -121,4 +124,5 @@ class EmailAnalysisResponse(BaseModel):
     header_forensics: HeaderForensics
     authentication: EmailAuthentication
     threat_analysis: ThreatAnalysis
+    risk: RiskAssessment
 
