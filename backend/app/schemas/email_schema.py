@@ -17,6 +17,9 @@ from app.schemas.ai_schema import (
 from app.schemas.intelligence_schema import (
     IntelligenceResult,
 )
+from app.schemas.forensic_schema import (
+    RelayTrace,
+)
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -132,5 +135,6 @@ class EmailAnalysisResponse(BaseModel):
     threat_analysis: ThreatAnalysis
     risk: RiskAssessment
     ai_analysis: AIAnalysis
-    intelligence: IntelligenceResult
+    relay_trace: RelayTrace
+    
 

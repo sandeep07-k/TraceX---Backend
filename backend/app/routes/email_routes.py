@@ -19,7 +19,9 @@ from app.services.ai.ai_analyzer import (
 from app.services.intelligence.intelligence_analyzer import (
     analyze_intelligence,
 )
-
+from app.services.forensic.relay_tracer import (
+    trace_relay_path,
+)
 
 router = APIRouter()
 
@@ -144,6 +146,13 @@ async def upload_email(
       parsed_email
     )
 
+    relay_trace = trace_relay_path(
+    parsed_email.get(
+        "received_headers",
+        [],
+    )
+)
+
     
 
     return {
@@ -156,6 +165,7 @@ async def upload_email(
         "risk": risk,
         "ai_analysis": ai_analysis,
         "intelligence": intelligence, 
+        "relay_trace": relay_trace,
     }
 
     

@@ -11,8 +11,11 @@ Authentication-Results: mx.example;
     dmarc=fail header.from=paypa1-security.example
 Received-SPF: fail
 Received: from suspicious-mail.example (198.51.100.20)
-    by mx.example with ESMTP;
-    Tue, 01 Sep 2026 10:29:50 +0530
+    by relay.example with ESMTP;
+    Tue, 01 Sep 2026 10:29:40 +0000
+Received: from mail-client.example (192.0.2.10)
+    by suspicious-mail.example with ESMTP;
+    Tue, 01 Sep 2026 10:29:20 +0000
 
 Hello,
 
