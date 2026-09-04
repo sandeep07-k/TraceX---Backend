@@ -20,6 +20,9 @@ from app.schemas.intelligence_schema import (
 from app.schemas.forensic_schema import (
     RelayTrace,
 )
+from app.schemas.forensic_graph_schema import (
+    ForensicGraph,
+)
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -125,6 +128,15 @@ class HeaderForensics(BaseModel):
 
     finding_count: int
 
+class CorrelationResult(BaseModel):
+    relationships: list[dict[str, Any]] = Field(
+        default_factory=list
+    )
+
+    relationship_count: int
+
+    highest_severity: str
+
 
 class EmailAnalysisResponse(BaseModel):
     success: bool
@@ -136,5 +148,7 @@ class EmailAnalysisResponse(BaseModel):
     risk: RiskAssessment
     ai_analysis: AIAnalysis
     relay_trace: RelayTrace
+    correlation: CorrelationResult
+    forensic_graph: ForensicGraph
     
 

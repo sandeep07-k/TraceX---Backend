@@ -22,6 +22,13 @@ from app.services.intelligence.intelligence_analyzer import (
 from app.services.forensic.relay_tracer import (
     trace_relay_path,
 )
+from app.services.forensic.correlation_engine import (
+    correlate_entities,
+)
+
+from app.services.forensic.graph_builder import (
+    build_forensic_graph,
+)
 
 router = APIRouter()
 
@@ -147,11 +154,23 @@ async def upload_email(
     )
 
     relay_trace = trace_relay_path(
-    parsed_email.get(
-        "received_headers",
-        [],
+        parsed_email.get(
+            "received_headers",
+            [],
+        )
     )
-)
+
+    correlation = correlate_entities(
+        intelligence,
+        relay_trace,
+        header_forensics,
+    )
+
+    forensic_graph = build_forensic_graph(
+        parsed_email,
+        intelligence,
+        relay_trace,
+    )
 
     
 
@@ -166,6 +185,8 @@ async def upload_email(
         "ai_analysis": ai_analysis,
         "intelligence": intelligence, 
         "relay_trace": relay_trace,
+        "correlation": correlation,
+        "forensic_graph": forensic_graph,
     }
 
     
