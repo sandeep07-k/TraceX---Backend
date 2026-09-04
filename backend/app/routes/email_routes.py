@@ -13,6 +13,9 @@ from app.services.threat.threat_analyzer import (
 from app.services.risk.risk_engine import (
     calculate_risk,
 )
+from app.services.ai.ai_analyzer import (
+    analyze_email_with_ai,
+)
 
 
 router = APIRouter()
@@ -108,11 +111,33 @@ async def upload_email(
         header_forensics,
     )
 
+    
+    parsed_email = parse_eml(content)
+
+    header_forensics = analyze_headers(
+        parsed_email
+    )
+
+    authentication = analyze_authentication(
+        parsed_email
+    )
+
+    threat_analysis = analyze_threats(
+        parsed_email,
+        header_forensics,
+    )
+    ai_analysis = analyze_email_with_ai(
+        parsed_email
+    )
+
     risk = calculate_risk(
         header_forensics,
         authentication,
         threat_analysis,
+        ai_analysis,
     )
+
+    
 
     return {
         "success": True,
@@ -122,6 +147,8 @@ async def upload_email(
         "authentication": authentication,
         "threat_analysis": threat_analysis,
         "risk": risk,
+        "ai_analysis": ai_analysis,
+        
     }
 
     

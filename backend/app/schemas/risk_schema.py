@@ -18,6 +18,7 @@ class RiskComponents(BaseModel):
     bec: int
     impersonation: int
     url_analysis: int
+    ai_analysis: int
 
 
 class RiskAssessment(BaseModel):

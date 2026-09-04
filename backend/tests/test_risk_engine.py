@@ -40,11 +40,19 @@ def test_high_risk_email():
             "suspicious_count": 1,
         },
     }
+    ai_analysis = {
+        "prediction": {
+            "phishing_probability": 0.90,
+            "legitimate_probability": 0.10,
+            "confidence": 0.90,
+        }
+    }
 
     result = calculate_risk(
         headers,
         authentication,
         threat,
+        ai_analysis,
     )
 
     assert result["score"] > 60
@@ -52,5 +60,8 @@ def test_high_risk_email():
         "HIGH",
         "CRITICAL",
     }
+    assert result["components"]["ai_analysis"] == 9
+    assert result["score"] > 0
+    
 
     assert result["evidence_count"] > 0

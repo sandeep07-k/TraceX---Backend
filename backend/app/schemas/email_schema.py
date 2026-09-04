@@ -11,6 +11,9 @@ from app.schemas.threat_schema import (
 from app.schemas.risk_schema import (
     RiskAssessment,
 )
+from app.schemas.ai_schema import (
+    AIAnalysis,
+)
 
 class AttachmentInfo(BaseModel):
     filename: str
@@ -125,4 +128,5 @@ class EmailAnalysisResponse(BaseModel):
     authentication: EmailAuthentication
     threat_analysis: ThreatAnalysis
     risk: RiskAssessment
+    ai_analysis: AIAnalysis
 

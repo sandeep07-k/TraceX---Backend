@@ -284,11 +284,71 @@ def calculate_url_score(
 
     return score
 
+def calculate_ai_score(
+    ai_analysis: dict[str, Any],
+    evidence: list[dict[str, Any]],
+) -> int:
+    """
+    Convert AI phishing probability into a
+    controlled risk contribution.
+
+    AI is supporting evidence only.
+    It does not determine the final risk level alone.
+    """
+
+    prediction = ai_analysis.get(
+        "prediction",
+        {},
+    )
+
+    phishing_probability = float(
+        prediction.get(
+            "phishing_probability",
+            0.0,
+        )
+    )
+
+    # AI maximum contribution = 10 points
+    score = round(
+        phishing_probability * 10
+    )
+
+    if phishing_probability >= 0.70:
+
+        add_evidence(
+            evidence,
+            code="AI_PHISHING_SIGNAL",
+            category="AI_ANALYSIS",
+            severity="HIGH",
+            score_contribution=score,
+            message=(
+                "AI language analysis detected "
+                "a strong phishing signal."
+            ),
+        )
+
+    elif phishing_probability >= 0.40:
+
+        add_evidence(
+            evidence,
+            code="AI_SUSPICIOUS_SIGNAL",
+            category="AI_ANALYSIS",
+            severity="MEDIUM",
+            score_contribution=score,
+            message=(
+                "AI language analysis detected "
+                "a suspicious email-language pattern."
+            ),
+        )
+
+    return min(score, 10)
+
 
 def calculate_risk(
     header_forensics: dict[str, Any],
     authentication: dict[str, Any],
     threat_analysis: dict[str, Any],
+    ai_analysis: dict[str, Any],
 ) -> dict[str, Any]:
     """
     Combine all available security findings
@@ -342,6 +402,11 @@ def calculate_risk(
         ),
         evidence,
     )
+    ai_score = calculate_ai_score(
+        ai_analysis,
+        evidence,
+    )
+    
 
     total_score = clamp_score(
         header_score
@@ -350,6 +415,7 @@ def calculate_risk(
         + bec_score
         + impersonation_score
         + url_score
+        + ai_score
     )
 
     level = risk_level(
@@ -359,6 +425,8 @@ def calculate_risk(
     explanations = build_explanations(
         evidence
     )
+
+    
 
     return {
         "score": total_score,
@@ -370,6 +438,7 @@ def calculate_risk(
             "bec": bec_score,
             "impersonation": impersonation_score,
             "url_analysis": url_score,
+            "ai_analysis": ai_score,
         },
         "evidence": evidence,
         "explanations": explanations,
