@@ -16,6 +16,9 @@ from app.services.risk.risk_engine import (
 from app.services.ai.ai_analyzer import (
     analyze_email_with_ai,
 )
+from app.services.intelligence.intelligence_analyzer import (
+    analyze_intelligence,
+)
 
 
 router = APIRouter()
@@ -137,6 +140,10 @@ async def upload_email(
         ai_analysis,
     )
 
+    intelligence = analyze_intelligence(
+      parsed_email
+    )
+
     
 
     return {
@@ -148,7 +155,7 @@ async def upload_email(
         "threat_analysis": threat_analysis,
         "risk": risk,
         "ai_analysis": ai_analysis,
-        
+        "intelligence": intelligence, 
     }
 
     
