@@ -12,11 +12,16 @@ class Settings(BaseSettings):
 
     max_upload_size_mb: int = 10
 
+    virustotal_api_key: str = ""
+    abuseipdb_api_key: str = ""
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+    
 
 
 @lru_cache

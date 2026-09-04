@@ -6,3 +6,4 @@ pydantic-settings
 pytest
 scikit-learn
 joblib
+httpx
