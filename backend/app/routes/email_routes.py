@@ -184,6 +184,7 @@ async def upload_email(
         )
     )
     analysis_result = {
+        "source_filename": file.filename,
         "email": parsed_email,
         "header_forensics": header_forensics,
         "authentication": authentication,

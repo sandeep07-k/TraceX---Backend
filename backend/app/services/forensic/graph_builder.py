@@ -285,15 +285,7 @@ def build_forensic_graph(
 
             current_node = by_node
 
-        if previous_host_node and current_node:
-
-            add_edge(
-                edges,
-                source=previous_host_node,
-                target=current_node,
-                relation="NEXT_HOP",
-            )
-
+       
         if current_node:
             previous_host_node = current_node
 

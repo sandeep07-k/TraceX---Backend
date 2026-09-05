@@ -9,6 +9,10 @@ from app.routes.case_routes import (
     router as case_router,
 )
 
+from app.routes.report_routes import (
+    router as report_router,
+)
+
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
@@ -43,6 +47,12 @@ app.include_router(
     case_router,
     prefix=settings.api_prefix,
     tags=["Cases"],
+)
+
+app.include_router(
+    report_router,
+    prefix=settings.api_prefix,
+    tags=["Reports"],
 )
 
 
