@@ -13,7 +13,10 @@ class Settings(BaseSettings):
     max_upload_size_mb: int = 10
 
     virustotal_api_key: str = ""
-    abuseipdb_api_key: str = ""
+    abuseipdb_api_key: str = " "
+
+    mongodb_uri: str = ""
+    database_name: str = "tracex"
 
     model_config = SettingsConfigDict(
         env_file=".env",

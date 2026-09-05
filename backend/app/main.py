@@ -5,6 +5,9 @@ from app.config.settings import settings
 from app.routes.health_routes import router as health_router
 from app.routes.email_routes import router as email_router
 
+from app.routes.case_routes import (
+    router as case_router,
+)
 
 app = FastAPI(
     title=settings.app_name,
@@ -34,6 +37,12 @@ app.include_router(
     health_router,
     prefix=settings.api_prefix,
     tags=["Health"],
+)
+
+app.include_router(
+    case_router,
+    prefix=settings.api_prefix,
+    tags=["Cases"],
 )
 
 

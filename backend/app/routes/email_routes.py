@@ -29,7 +29,10 @@ from app.services.forensic.correlation_engine import (
 from app.services.forensic.graph_builder import (
     build_forensic_graph,
 )
-
+from app.services.case.case_service import (
+    create_case,
+    save_analysis,
+)
 router = APIRouter()
 
 
@@ -172,7 +175,38 @@ async def upload_email(
         relay_trace,
     )
 
-    
+    case = create_case(
+    title=(
+            parsed_email.get(
+                "subject"
+            )
+            or "Email Investigation"
+        )
+    )
+    analysis_result = {
+        "email": parsed_email,
+        "header_forensics": header_forensics,
+        "authentication": authentication,
+        "threat_analysis": threat_analysis,
+        "risk": risk,
+        "ai_analysis": ai_analysis,
+        "intelligence": intelligence,
+        "relay_trace": relay_trace,
+        "correlation": correlation,
+        "forensic_graph": forensic_graph,
+    }
+
+    save_analysis(
+        case["case_id"],
+        analysis_result,
+    )
+
+    return {
+        "success": True,
+        "case_id": case["case_id"],
+        "filename": file.filename,
+        **analysis_result,
+    }
 
     return {
         "success": True,
