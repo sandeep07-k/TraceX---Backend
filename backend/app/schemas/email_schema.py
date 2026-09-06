@@ -140,6 +140,7 @@ class CorrelationResult(BaseModel):
 
 class EmailAnalysisResponse(BaseModel):
     success: bool
+    case_id: str
     filename: str
     email: EmailInfo
     header_forensics: HeaderForensics
@@ -147,6 +148,7 @@ class EmailAnalysisResponse(BaseModel):
     threat_analysis: ThreatAnalysis
     risk: RiskAssessment
     ai_analysis: AIAnalysis
+    intelligence: IntelligenceResult
     relay_trace: RelayTrace
     correlation: CorrelationResult
     forensic_graph: ForensicGraph
