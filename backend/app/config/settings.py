@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     mongodb_uri: str = ""
     database_name: str = "tracex"
 
+    max_upload_size_mb: int = 10
+    rate_limit: str = "30/minute"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

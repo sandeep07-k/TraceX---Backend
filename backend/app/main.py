@@ -13,6 +13,11 @@ from app.routes.report_routes import (
     router as report_router,
 )
 
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.util import get_remote_address
+
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
@@ -53,6 +58,24 @@ app.include_router(
     report_router,
     prefix=settings.api_prefix,
     tags=["Reports"],
+)
+
+limiter = Limiter(
+    key_func=get_remote_address
+)
+
+app.state.limiter = limiter
+
+app.add_middleware(
+    SlowAPIMiddleware
+)
+
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+
+app.add_exception_handler(
+    RateLimitExceeded,
+    _rate_limit_exceeded_handler,
 )
 
 
